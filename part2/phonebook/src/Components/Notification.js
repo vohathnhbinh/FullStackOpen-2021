@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const Notification = ({message, msgType}) => {
+const Notification = ({ message, msgType }) => {
   if (message === null) return null;
 
   const notifyStyle = {
@@ -9,19 +9,13 @@ const Notification = ({message, msgType}) => {
     borderStyle: "solid",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10
+    marginBottom: 10,
   };
 
-  if (msgType === "success")
-    notifyStyle.color = "green";
-  else if (msgType === "error")
-    notifyStyle.color = "red";
+  if (msgType === "success") notifyStyle.color = "green";
+  else if (msgType === "error") notifyStyle.color = "red";
 
-  return (
-    <div style={notifyStyle}>
-      {message}
-    </div>
-  )
-}
+  return <div style={notifyStyle}>{message}</div>;
+};
 
 export default Notification;

@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 
-const Filter = props => {
+const Filter = (props) => {
   return (
     <>
-      filter shown with: <input onChange={props.handleFilterChange} value={props.name_filter} />
+      filter shown with:{" "}
+      <input onChange={props.handleFilterChange} value={props.name_filter} />
     </>
-  )
-}
+  );
+};
 
 export default Filter;

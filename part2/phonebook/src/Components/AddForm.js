@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const AddForm = props => {
+const AddForm = (props) => {
   return (
     <>
       <form onSubmit={props.handleSubmit}>
@@ -8,11 +8,21 @@ const AddForm = props => {
           <tbody>
             <tr>
               <td>name:</td>
-              <td><input value={props.new_name} onChange={props.handleNameChange} /></td>
+              <td>
+                <input
+                  value={props.new_name}
+                  onChange={props.handleNameChange}
+                />
+              </td>
             </tr>
             <tr>
               <td>number:</td>
-              <td><input value={props.new_number} onChange={props.handleNumberChange} /></td>
+              <td>
+                <input
+                  value={props.new_number}
+                  onChange={props.handleNumberChange}
+                />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -21,7 +31,7 @@ const AddForm = props => {
         </div>
       </form>
     </>
-  )
-}
+  );
+};
 
 export default AddForm;
