@@ -27,25 +27,35 @@ blogsRouter.post('/', userExtractor, async (req, res) => {
   blog.user = user._id;
 
   const result = await blog.save();
+  const populatedResult = await Blog.populate(result, {
+    path: 'user',
+    model: 'User',
+  });
 
   user.blogs.push(result._id);
   await user.save();
-  res.status(200).json(result);
+  res.status(200).json(populatedResult);
 });
 
 blogsRouter.delete('/:id', userExtractor, async (req, res) => {
   const id = req.params.id;
   const blog = await Blog.findById(id);
+  const user = await User.findById(req.user.id);
+  return res.status(401).json({ error: 'Not creator of blog' });
   if (blog.user.toString() !== req.user.id) {
-    console.log('ok');
     return res.status(401).json({ error: 'Not creator of blog' });
   }
-  console.log('ok');
   await Blog.findByIdAndDelete(id);
+  user.blogs = user.blogs.filter((blogId) => blogId.toString() !== id);
+  await user.save();
   res.status(204).end();
 });
 
-blogsRouter.put('/:id', async (req, res) => {
+blogsRouter.put('/:id', userExtractor, async (req, res) => {
+  if (!req.user) {
+    return res.status(401).end();
+  }
+
   const id = req.params.id;
 
   if (!isValidObjectId(id)) {
@@ -53,7 +63,9 @@ blogsRouter.put('/:id', async (req, res) => {
   }
 
   const blog = req.body;
-  const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true });
+  const updatedBlog = await Blog.findByIdAndUpdate(id, blog, {
+    new: true,
+  }).populate('user');
   if (updatedBlog) {
     res.status(200).json(updatedBlog);
   } else {
